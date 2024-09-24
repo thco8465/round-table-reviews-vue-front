@@ -1,0 +1,88 @@
+<template>
+    <div :class="styles.container">
+      <h1 :class="styles.title">Find Friends</h1>
+      <FriendSearch @userSelect="setSelectedUser" />
+      <FriendButton v-if="selectedUser" :selectedUser="selectedUser" />
+    </div>
+  </template>
+  
+  <script>
+  import { ref } from 'vue'; // Import ref for reactivity
+  import FriendSearch from './FriendSearch.vue'; // Adjust path as needed
+  import FriendButton from './AddFriendButton.vue'; // Adjust path as needed
+  
+  export default {
+    name: 'AddFriendPage',
+    components: {
+      FriendSearch,
+      FriendButton,
+    },
+    setup() {
+      const selectedUser = ref(null); // Using ref for reactive state
+  
+      const setSelectedUser = (user) => {
+        selectedUser.value = user; // Update selectedUser
+      };
+  
+      return {
+        selectedUser,
+        setSelectedUser,
+      };
+    },
+  };
+  </script>
+  
+  <style scoped>
+
+.container {
+    background: #f0e6d6; /* Light parchment color */
+    border: 2px solid #8b5e3c; /* Darker border for a medieval look */
+    border-radius: 12px; /* Rounded corners */
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: 'Garamond', serif; /* Medieval-style font */
+  }
+  
+  .title {
+    color: #6a3d2a; /* Dark brown color */
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #8b5e3c; /* Border under the title */
+    padding-bottom: 10px;
+  }
+  
+  input[type="text"] {
+    background: #fff; /* White background for input fields */
+    border: 1px solid #8b5e3c; /* Dark brown border */
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    font-family: 'Garamond', serif; /* Matching font */
+  }
+  
+  button {
+    background: #8b5e3c; /* Dark brown background */
+    color: #f4f1e4; /* Off-white text color */
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-family: 'Garamond', serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #a67c52; /* Lighter brown on hover */
+  }
+  
+  button:focus {
+    outline: 2px solid #6a3d2a; /* Darker border on focus */
+  }
+  
+  
+  </style>
+  
