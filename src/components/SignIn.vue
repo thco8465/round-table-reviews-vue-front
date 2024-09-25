@@ -28,7 +28,7 @@
       </form>
       <p class="prompt">Don't have an account?</p>
       <div class="signUpPrompt">
-        <RouterLink to="/sign-up" class="signUpButton">Sign Up Here</RouterLink>
+        <RouterLink to="/SignUp" class="signUpButton">Sign Up Here</RouterLink>
       </div>
     </div>
   </template>

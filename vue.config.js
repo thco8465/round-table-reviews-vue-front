@@ -1,6 +1,7 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
+  //publicPath: './',  // This sets the base URL to be relative for assets
   transpileDependencies: true,
   devServer: {
     host: '0.0.0.0',
@@ -15,4 +16,4 @@ module.exports = defineConfig({
       },
     },
   },
-})
+});

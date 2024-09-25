@@ -54,11 +54,6 @@ const routes = [
   //   component: ReviewByUser,
   // },
   {
-    path: '/SignIn',
-    name: 'SignIn',
-    component: SignIn,
-  },
-  {
     path: '/SignUp',
     name: 'SignUp',
     component: SignUp,
