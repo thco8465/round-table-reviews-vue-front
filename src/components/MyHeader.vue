@@ -66,16 +66,15 @@ export default {
   components: {
     FontAwesomeIcon,
   },
-  props: {
-    isAuthenticated: {
-      type: Boolean,
-      required: true,
-    },
+  data() {
+    return {
+      isAuthenticated: !!localStorage.getItem('token'), // Check if token exists
+    };
   },
   methods: {
     handleSignOut() {
       localStorage.removeItem('token'); // Remove token from local storage
-      this.$emit('authenticated', false); // Emit sign-out event
+      this.isAuthenticated = false; // Update local state
       this.$router.push('/SignIn'); // Programmatically navigate to SignIn
     },
   },

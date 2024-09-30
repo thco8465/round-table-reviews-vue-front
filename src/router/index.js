@@ -6,10 +6,10 @@ import MyHome from '../components/MyHome.vue';
 import MyProfile from '../components/MyProfile.vue';
 import SignIn from '../components/SignIn.vue';
 import SignUp from '../components/SignUp.vue';
-import GameSearch from '@/components/GameSearch.vue';
-import UserSearch from '@/components/UserSearch.vue';
-import Review_info_card from '@/components/Review_info_card.vue';
-import UserProfile from '@/components/UserProfile.vue';
+import GameSearch from '../components/GameSearch.vue';
+import UserSearch from '../components/UserSearch.vue';
+import Review_info_card from '../components/Review_info_card.vue';
+import UserProfile from '../components/UserProfile.vue';
 
 const routes = [
   {
