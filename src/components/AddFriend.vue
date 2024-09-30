@@ -1,6 +1,6 @@
 <template>
-    <div :class="styles.container">
-      <h1 :class="styles.title">Find Friends</h1>
+    <div class="container">
+      <h1 class="title">Find Friends</h1>
       <FriendSearch @userSelect="setSelectedUser" />
       <FriendButton v-if="selectedUser" :selectedUser="selectedUser" />
     </div>

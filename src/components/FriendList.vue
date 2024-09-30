@@ -10,7 +10,7 @@
         <li
           v-for="friend in acceptedFriends"
           :key="friend.friend_id"
-          class="[friendItem, friend.status]"
+          class="friendItem"
         >
           <span>{{ friend.friend_username }}</span>
           <div class="btnContainer">
@@ -34,7 +34,7 @@
         <li
           v-for="friend in sentRequests"
           :key="friend.friend_id"
-          class="[friendItem, friend.status]"
+          class="friendItem"
         >
           <span>{{ friend.friend_username }}</span>
           <span class="status">{{ friend.status }}</span>
@@ -48,7 +48,7 @@
         <li
           v-for="friend in receivedRequests"
           :key="friend.friend_id"
-          class="[friendItem, friend.status]"
+          class="friendItem"
         >
           <span>{{ friend.friend_username }}</span>
           <span class="status">{{ friend.status }}</span>
@@ -247,11 +247,11 @@ export default {
       }
     };
 
-    const handleUnfriend = async (friendId) => {
+    const handleUnfriend = async (friend_id) => {
       loading.value = true; // Optional: Set loading state to true while the request is in progress
       try {
         // Make a DELETE request to your backend API to remove the friend
-        const response = await fetch(`/api/friends/unfriend/${friendId}`, {
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/friends/unfriend/${friend_id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ export default {
         }
 
         // Optionally update local state or UI to reflect the change
-        acceptedFriends.value = acceptedFriends.value.filter(friend => friend.friend_id !== friendId);
+        acceptedFriends.value = acceptedFriends.value.filter(friend => friend.friend_id !== friend_id);
 
         // Optionally show a success message or notification
         console.log('Successfully unfriended');
@@ -328,7 +328,7 @@ export default {
   }
   
   .friendSection {
-    margin-bottom: 30px;
+    margin: 40px;
   }
   
   .subheader {
@@ -341,7 +341,7 @@ export default {
   
   .friendList {
     list-style-type: none;
-    padding: 0;
+    margin: 20px;
   }
   
   .friendItem {
@@ -349,17 +349,22 @@ export default {
     border: 1px solid #4a3c2b; /* Dark brown border */
     border-radius: 8px;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between; /* Align content to edges */
     align-items: center;
     font-size: 1rem;
   }
+  .friend-username {
+  font-size: 1.2em; /* Increase font size for the username */
+  font-weight: bold; /* Make it bold for emphasis */
+}
 
-  .status {
-    font-weight: bold;
-  }
-  
+.status {
+  font-size: 1.1em; /* Slightly larger than default */
+  font-weight: bold;
+  margin-left: 20px; /* Add some spacing between the username and status */
+}
   .pending {
     background: #f7d8b3; /* Light orange for pending status */
   }

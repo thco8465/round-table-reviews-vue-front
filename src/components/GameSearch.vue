@@ -1,65 +1,55 @@
 <template>
-    <div :class="styles.container">
-      <h2>Search for reviews by game</h2>
-      <input
-        type="text"
-        v-model="gameName"
-        placeholder="Enter game name"
-        :class="styles.input"
-      />
-      <button @click="handleSearch" :class="styles.button">Search</button>
-      <div :class="styles.results">
-        <div v-for="review in reviews" :key="review.id" :class="styles.review">
-          <ReviewCard :review="review" />
-        </div>
+  <div class="container">
+    <h2>Search for reviews by game</h2>
+    <input
+      type="text"
+      v-model="gameName"
+      placeholder="Enter game name"
+      class="input"
+    />
+    <button @click="handleSearch" class="button">Search</button>
+    <div class="results">
+      <div v-for="review in reviews" :key="review.id" class="review">
+        <ReviewCard :review="review" />
       </div>
     </div>
-  </template>
-  
-  <script lang="ts">
-  import { defineComponent, ref } from 'vue';
-  import ReviewCard from '../reviewCard/ReviewCard.vue'; // Adjust the path as necessary
-  
-  interface Review {
-    id: number;
-    game_name: string;
-    review: string;
-    time_spent: number;
-    rating: number;
-    username: string;
-    date: string;
-    cover: string;
-  }
-  
-  export default defineComponent({
-    name: 'GameSearch',
-    components: {
-      ReviewCard,
-    },
-    setup() {
-      const gameName = ref('');
-      const reviews = ref<Review[]>([]);
-  
-      const handleSearch = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/review/reviews/game/${encodeURIComponent(gameName.value)}`
-          );
-          const data: Review[] = await response.json();
-          reviews.value = data;
-        } catch (error) {
-          console.error('Error fetching reviews:', error);
-        }
-      };
-  
-      return {
-        gameName,
-        reviews,
-        handleSearch,
-      };
-    },
-  });
-  </script>
+  </div>
+</template>
+
+<script>
+import { defineComponent, ref } from 'vue';
+import ReviewCard from './ReviewCard.vue'; // Adjust the path as necessary
+
+export default defineComponent({
+  name: 'GameSearch',
+  components: {
+    ReviewCard,
+  },
+  setup() {
+    const gameName = ref('');
+    const reviews = ref([]);
+
+    const handleSearch = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.VUE_APP_API_URL}/api/review/reviews/game/${encodeURIComponent(gameName.value)}`
+        );
+        const data = await response.json();
+        reviews.value = data;
+        console.log(reviews);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+
+    return {
+      gameName,
+      reviews,
+      handleSearch,
+    };
+  },
+});
+</script>
   
   <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap');

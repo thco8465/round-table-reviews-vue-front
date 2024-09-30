@@ -1,4 +1,6 @@
 <template>
+  <div>
+  <SearchBar :onGameSelect="handleGameSelect"/>
   <div class="reviewCard">
     <h3 class="title">Add Your Review</h3>
     <form @submit.prevent="handleSubmit" class="reviewForm">
@@ -117,18 +119,22 @@
     </form>
     <div v-if="loading" class="spinner">Loading...</div>
   </div>
+</div>
 </template>
   
   <script>
   import { ref, onMounted, watch } from 'vue'; // Import Vue's ref and lifecycle methods
-  
+  import SearchBar from './SearchBar.vue';
   export default {
-    name: 'ReviewForm',
+    name: 'AddReview',
+    components: {
+      SearchBar,
+    },
     props: {
-      selectedGame: {
-        type: Object,
-        required: true,
-      },
+      // selectedGame: {
+      //   type: Object,
+      //   required: true,
+      // },
     },
     setup(props) {
       const formData = ref({
@@ -140,6 +146,11 @@
         date: new Date().toISOString().split('T')[0],
         userId: null,
       });
+      const handleGameSelect = (selectedGame) => {
+        console.log('Selected game info: ', selectedGame);
+      formData.value.gameId = selectedGame.gameId; // Update with selected game ID
+      formData.value.game_name = selectedGame.title; // Update with selected game title
+     };
   
       const inDepth = ref({
         review_id: 0,
@@ -156,7 +167,7 @@
   
       const fetchUserData = async () => {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/me`, {
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/me`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
@@ -202,7 +213,7 @@
         try {
           loading.value = true; // Start loading
   
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/review/review`, {
+          const response = await fetch(`${process.env.VUE_APP_API_URL}/api/review/review`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -219,7 +230,7 @@
   
           inDepth.value.review_id = reviewId;
   
-          const inDepthResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/review/review/in-depth`, {
+          const inDepthResponse = await fetch(`${process.env.VUE_APP_API_URL}/api/review/review/in-depth`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -231,7 +242,7 @@
             throw new Error('Failed to submit in-depth review');
           }
   
-          await fetch(`${import.meta.env.VITE_API_URL}/api/user/reviewCount`, {
+          await fetch(`${process.env.VUE_APP_API_URL}/api/user/reviewCount`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -240,7 +251,7 @@
           });
   
           // Add experience
-          await fetch(`${import.meta.env.VITE_API_URL}/api/user/exp`, {
+          await fetch(`${process.env.VUE_APP_API_URL}/api/user/exp`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -279,6 +290,7 @@
       return {
         formData,
         inDepth,
+        handleGameSelect,
         loading,
         handleSubmit,
       };

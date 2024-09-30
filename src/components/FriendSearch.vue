@@ -33,7 +33,7 @@ export default {
 
     const searchUsers = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/search-user?username=${query.value}`);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/api/user/search-user?username=${query.value}`);
         const data = await res.json();
         results.value = data; // Update results with fetched data
       } catch (error) {

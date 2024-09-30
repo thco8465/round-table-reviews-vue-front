@@ -77,7 +77,7 @@
   
       const handleSubmit = async () => {
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authRoutes/signup`, {
+          const response = await fetch(`${process.env.VUE_APP_API_URL}/api/authRoutes/signup`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -89,7 +89,7 @@
           console.log('Sign-up result:', result);
   
           if (response.ok) {
-            router.push('/'); // Redirect on success
+            router.push('/Home'); // Redirect on success
           }
   
           // Handle any additional logic for unsuccessful sign-up here

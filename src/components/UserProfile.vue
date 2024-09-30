@@ -1,21 +1,24 @@
 <template>
-    <div class="profile">
+  <div class="profile">
+    <!-- Check if user is not null before rendering -->
+    <div v-if="user">
       <h1>{{ user.username }}'s Profile</h1>
       <div class="stats">
-        <div class="stat">
+        <div class="stat" v-if="user.reviewCount !== null">
           <p>Review Count:</p>
           <p>{{ user.reviewCount }}</p>
         </div>
-        <div class="stat">
+        <div class="stat" v-if="user.exp !== null">
           <p>Experience:</p>
           <p>{{ user.exp }}</p>
         </div>
-        <div class="stat">
+        <div class="stat" v-if="user.level !== null">
           <p class="level">Level:</p>
           <p>{{ user.level }}</p>
         </div>
       </div>
       <div class="reviews">
+        <!-- Check if reviews array is not empty -->
         <template v-if="reviews.length > 0">
           <ReviewCard v-for="review in reviews" :key="review.id" :review="review" />
         </template>
@@ -24,61 +27,48 @@
         </template>
       </div>
     </div>
-  </template>
+    <!-- Show message if user data is null -->
+    <div v-else>
+      <p>User not found or data is unavailable.</p>
+    </div>
+  </div>
+</template>
+
   
-  <script lang="ts">
-  import { defineComponent, ref, onMounted, watch } from 'vue';
-  import ReviewCard from '../reviewCard/reviewCard';
-  import styles from './userProfile.module.css';
-  
-  interface Review {
-    id: number;
-    rating: number;
-    review: string;
-    date: string;
-    game_name: string;
-    cover: string;
-  }
-  
-  interface User {
-    username: string;
-    reviewCount: number;
-    exp: number;
-    level: string;
-  }
+  <script>
+  import { defineComponent, ref, onMounted } from 'vue';
+  import ReviewCard from './ReviewCard';
+  import {useRoute} from 'vue-router';
   
   export default defineComponent({
     name: 'UserProfile',
     components: {
       ReviewCard,
     },
-    props: {
-      userId: {
-        type: Number,
-        required: true,
-      },
-    },
-    setup(props) {
-      const user = ref<User | null>(null);
-      const reviews = ref<Review[]>([]);
-      const loading = ref<boolean>(true);
-      const error = ref<string | null>(null);
+    setup() {
+      const user = ref(null);
+      const route = useRoute();
+      const reviews = ref([]);
+      const loading = ref(true);
+      const error = ref(null);
+      const user_Id = route.params.user_Id;
+    
   
       const fetchUserData = async () => {
+        console.log('Front-end user_Id: ', user_Id);
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/${props.userId}`, {
+          const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/${user_Id}`, {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
           });
   
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-  
-          const data = await response.json();
-          user.value = data;
+          }  
+          user.value =  await response.json();
+          console.log(user);
         } catch (err) {
           error.value = 'Failed to fetch user data.';
           console.error('Error fetching user data:', err);
@@ -87,11 +77,11 @@
   
       const fetchUserReviews = async () => {
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/${props.userId}/reviews`, {
+          const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/${user_Id}/reviews`, {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
           });
   
           if (!response.ok) {
@@ -113,13 +103,6 @@
         fetchUserData();
         fetchUserReviews();
       });
-  
-      watch(() => props.userId, (newUserId) => {
-        loading.value = true; // Reset loading state
-        fetchUserData();
-        fetchUserReviews();
-      });
-  
       return {
         user,
         reviews,
@@ -129,7 +112,6 @@
     },
   });
   </script>
-  
   <style scoped>
 .profile {
     background: #f4e3c1; /* Parchment-like background color */

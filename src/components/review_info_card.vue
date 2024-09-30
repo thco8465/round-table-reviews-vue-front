@@ -1,59 +1,56 @@
 <template>
-    <div class="reviewCard">
-      <!-- Cover image of the game -->
-      <div class="reviewCard__cover">
-        <img :src="imageUrl" :alt="review.game_name" />
-      </div>
+  <div class="reviewCard" v-if="reviewInfo">
+    <h1 class="gameTitle">{{ reviewInfo.game_name }}</h1>
+    <p class="reviewText"><strong>High Point:</strong> {{ reviewInfo[2] }}</p>
+    <p class="reviewText"><strong>Low Point:</strong> {{ reviewInfo[3] }}</p>
+    <p class="reviewText"><strong>Atmosphere:</strong> {{ reviewInfo[4] }}/10</p>
+    <p class="reviewText"><strong>Story:</strong> {{ reviewInfo[4] }}/10</p>
+    <p class="reviewText"><strong>Gameplay:</strong> {{ reviewInfo[5] }}/10</p>
+    <p class="reviewText"><strong>Developer Note:</strong> {{ reviewInfo[6] }}</p>
+    <p class="reviewText"><strong>Difficulty:</strong> {{ reviewInfo[7] }}/10</p>
+  </div>
+  <div v-else>
+    <p>Loading review details...</p>
+  </div>
+</template>
+
+<script>
+import { defineComponent, ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+export default defineComponent({
+  name: 'ReviewInfoCard',
+  setup() {
+    const reviewInfo = ref(null);
+    const route = useRoute();
+
+    const fetchReviewInfo = async () => {
+      const reviewId = route.params.review_id; // Get the review ID from the route
+      try {
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/api/review/review/in-depth/${reviewId}`); // Adjust URL to your API endpoint
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        reviewInfo.value = await response.json(); // Store fetched review info
+        console.log('Fetched reviewInfo: ', reviewInfo);
+      } catch (error) {
+        console.error('Error fetching review info:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchReviewInfo(); // Fetch review info when the component is mounted
+    });
+
+    return {
+      reviewInfo,
+    };
+  },
+});
+</script>
   
-      <h3 class="gameTitle">{{ review.game_name }}</h3>
-      <p class="rating"><strong>High Point:</strong> {{ review.high }}</p>
-      <p class="reviewText"><strong>Low Point:</strong> {{ review.low }}</p>
-      <p class="reviewText"><strong>Atmosphere:</strong> {{ review.atmosphere }}/10</p>
-      <p class="reviewText"><strong>Story:</strong> {{ review.story }}/10</p>
-      <p class="reviewText"><strong>Gameplay:</strong> {{ review.gameplay }}/10</p>
-      <p class="reviewText"><strong>Note to Developer:</strong> {{ review.dev_note }}</p>
-  
-      <p v-if="review.username" class="username"><strong>Username:</strong> {{ review.username }}</p>
-    </div>
-  </template>
-  
-  <script lang="ts">
-  import { defineComponent, computed } from 'vue';
-  
-  interface ReviewInfo {
-    id: number;
-    review_id: number;
-    high: string;
-    low: string;
-    atmosphere: number;
-    story: number;
-    dev_note: string;
-    gameplay: number;
-    username?: string; // Optional username
-    game_name: string;
-    cover: string;
-  }
-  
-  export default defineComponent({
-    name: 'ReviewCard',
-    props: {
-      review: {
-        type: Object as () => ReviewInfo,
-        required: true,
-      },
-    },
-    setup(props) {
-      // Compute the image URL based on the review cover
-      const imageUrl = computed(() =>
-        props.review.cover.replace('{width}', '100').replace('{height}', '150')
-      );
-  
-      return {
-        imageUrl,
-      };
-    },
-  });
-  </script>
   
   <style scoped>
 .reviewCard {

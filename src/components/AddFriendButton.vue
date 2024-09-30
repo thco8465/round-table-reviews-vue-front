@@ -11,7 +11,7 @@ import { ref, onMounted } from 'vue'; // Import ref and onMounted for reactivity
 const fetchUserData = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/me`, {
+    const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/me`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ export default {
 
     const sendFriendRequest = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/add-friend`, {
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/add-friend`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
