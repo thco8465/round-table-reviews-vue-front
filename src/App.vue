@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <MyTitle :isAuthenticated="isAuthenticated" /> <!-- Pass isAuthenticated as prop -->
-    <MyHeader :isAuthenticated="isAuthenticated" @authenticated="handleAuth" /> <!-- Pass isAuthenticated and listen for event -->
+    <MyTitle class="mytitle" :isAuthenticated="isAuthenticated" /> <!-- Pass isAuthenticated as prop -->
+    <MyHeader class="myheader" :isAuthenticated="isAuthenticated" @authenticated="handleAuth" /> <!-- Pass isAuthenticated and listen for event -->
     <router-view /> <!-- Always render routed components -->
   </div>
 </template>
@@ -56,5 +56,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 30px;
+}
+.mytitle{
+  margin-bottom: 10px;
+}
+.myheader{
+
 }
 </style>

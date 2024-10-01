@@ -84,6 +84,12 @@ export default defineComponent({
   max-height: 150px; /* Set a maximum height if needed */
   padding: 10px; /* Add padding to ensure content is not too close to edges */
   overflow: hidden; /* Hide overflow to keep the container tidy */
+  background-size: cover;
+  border: 5px solid #B08D57;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for a dramatic effect */  
+  /* Gold border resembling an ancient frame */
+  padding: 10px 20px;
+  border-radius: 12px;
 }
 
 .title {
@@ -93,6 +99,7 @@ export default defineComponent({
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for a dramatic effect */
   margin: 0;
   text-align: center;
+  text-justify: center;
 }
 
 .user-info {
