@@ -1,5 +1,9 @@
 <template>
   <div class="reviewCard" v-if="reviewInfo">
+    <div class="reviewCard__cover">
+      <img :src="imageUrl" :alt="review.game_name" />
+    </div>
+    <h3 class="gameTitle">{{ review.game_name }}</h3>
     <h1 class="gameTitle">{{ reviewInfo.game_name }}</h1>
     <p class="reviewText"><strong>High Point:</strong> {{ reviewInfo[2] }}</p>
     <p class="reviewText"><strong>Low Point:</strong> {{ reviewInfo[3] }}</p>
