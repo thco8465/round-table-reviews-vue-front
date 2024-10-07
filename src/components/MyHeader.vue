@@ -68,7 +68,7 @@ export default {
   },
   data() {
     return {
-      isAuthenticated: !!localStorage.getItem('token'), // Check if token exists
+      isAuthenticated: !!localStorage.getItem('token'), // Check if token exists initially
     };
   },
   methods: {
@@ -78,8 +78,33 @@ export default {
       this.$router.push('/SignIn'); // Programmatically navigate to SignIn
     },
   },
+  mounted() {
+    // Listen for storage changes, including token updates across tabs
+    window.addEventListener('storage', this.syncAuthState);
+  },
+  beforeUnmount() {
+    // Cleanup event listener when component is destroyed
+    window.removeEventListener('storage', this.syncAuthState);
+  },
+  watch: {
+    // Watch for token changes and update isAuthenticated
+    isAuthenticated(newStatus) {
+      console.log('Authentication status changed:', newStatus);
+    }
+  },
+  methods: {
+    handleSignOut() {
+      localStorage.removeItem('token'); // Remove token from local storage
+      this.isAuthenticated = false; // Update local state
+      this.$router.push('/SignIn'); // Programmatically navigate to SignIn
+    },
+    syncAuthState() {
+      this.isAuthenticated = !!localStorage.getItem('token'); // Check if token is in local storage
+    }
+  }
 };
 </script>
+
 
 
   <style scoped>
