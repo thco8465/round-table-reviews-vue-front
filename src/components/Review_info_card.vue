@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
@@ -26,7 +26,14 @@ export default defineComponent({
   setup() {
     const reviewInfo = ref(null);
     const route = useRoute();
-    const imageUrl = ''
+
+    // Use computed to define imageUrl based on reviewInfo
+    const imageUrl = computed(() => {
+      if (reviewInfo.value) {
+        return reviewInfo.value[9].replace('{width}', '100').replace('{height}', '150');
+      }
+      return ''; // Return an empty string while loading
+    });
 
     const fetchReviewInfo = async () => {
       const reviewId = route.params.review_id; // Get the review ID from the route
@@ -38,10 +45,7 @@ export default defineComponent({
         }
         
         reviewInfo.value = await response.json(); // Store fetched review info
-        imageUrl = computed(() =>
-          reviewInfo[9].replace('{width}', '100').replace('{height}', '150')
-        );
-        console.log('Fetched reviewInfo: ', reviewInfo);
+        console.log('Fetched reviewInfo: ', reviewInfo.value);
       } catch (error) {
         console.error('Error fetching review info:', error);
       }
