@@ -26,6 +26,7 @@ export default defineComponent({
   setup() {
     const reviewInfo = ref(null);
     const route = useRoute();
+    const imageUrl = ''
 
     const fetchReviewInfo = async () => {
       const reviewId = route.params.review_id; // Get the review ID from the route
@@ -37,7 +38,7 @@ export default defineComponent({
         }
         
         reviewInfo.value = await response.json(); // Store fetched review info
-        const imageUrl = computed(() =>
+        imageUrl = computed(() =>
           reviewInfo[9].replace('{width}', '100').replace('{height}', '150')
         );
         console.log('Fetched reviewInfo: ', reviewInfo);
@@ -52,6 +53,7 @@ export default defineComponent({
 
     return {
       reviewInfo,
+      imageUrl
     };
   },
 });
