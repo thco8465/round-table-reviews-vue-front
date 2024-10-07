@@ -1,7 +1,7 @@
 <template>
   <div class="reviewCard" v-if="reviewInfo">
     <div class="reviewCard__cover">
-      <img :src="reviewInfo[9]" :alt="reviewInfo[10]" />
+      <img :src="imageUrl" :alt="reviewInfo[10]" />
     </div>
     <h3 class="gameTitle">{{ reviewInfo[10] }}</h3>
     <p class="reviewText"><strong>High Point:</strong> {{ reviewInfo[2] }}</p>
@@ -37,6 +37,9 @@ export default defineComponent({
         }
         
         reviewInfo.value = await response.json(); // Store fetched review info
+        const imageUrl = computed(() =>
+          reviewInfo[9].replace('{width}', '100').replace('{height}', '150')
+        );
         console.log('Fetched reviewInfo: ', reviewInfo);
       } catch (error) {
         console.error('Error fetching review info:', error);
