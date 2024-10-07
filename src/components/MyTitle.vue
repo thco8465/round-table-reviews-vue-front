@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, watchEffect } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 
 // Function to fetch user data
 const fetchUserData = async () => {
@@ -61,9 +61,9 @@ export default defineComponent({
     };
 
     // Watch for authentication changes to fetch user data
-    watchEffect(() => {
-      if (props.isAuthenticated) {
-        loadUserData();
+    watch(() => props.isAuthenticated, (newValue) => {
+      if (newValue) {
+        loadUserData(); // Fetch user data on authentication
       } else {
         username.value = null; // Reset if not authenticated
       }
@@ -71,7 +71,7 @@ export default defineComponent({
 
     return {
       username,
-      titleText,
+      titleText
     };
   },
 });
