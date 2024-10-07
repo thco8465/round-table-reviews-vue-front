@@ -17,12 +17,14 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore'; // Correct import for named export
 
 export default defineComponent({
   name: 'SignIn',
-  setup(props, { emit }) {
+  setup() {
     const formData = ref({ email: '', username: '', password: '' });
     const router = useRouter();
+    const authStore = useAuthStore(); // Get the auth store instance
 
     const handleSubmit = async () => {
       try {
@@ -39,8 +41,8 @@ export default defineComponent({
           localStorage.setItem('token', data.token); // Store token
           console.log('Sign-in successful:', data);
 
-          // Emit an event to let the parent know sign-in is successful
-          emit('authenticated', true); // Emit event AFTER setting the token
+          // Update the global authentication state
+          authStore.setAuthStatus(true); // Set authentication to true in the store
 
           await router.push('/Home'); // Redirect to Home
         } else {
@@ -58,7 +60,6 @@ export default defineComponent({
   },
 });
 </script>
-
 <style scoped>
 .container {
   max-width: 400px;

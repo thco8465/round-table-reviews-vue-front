@@ -1,52 +1,40 @@
 <template>
   <div id="app">
-    <MyTitle class="mytitle" :isAuthenticated="isAuthenticated" /> <!-- Pass isAuthenticated as prop -->
-    <MyHeader class="myheader" :isAuthenticated="isAuthenticated" @authenticated="handleAuth" /> <!-- Pass isAuthenticated and listen for event -->
-    <router-view /> <!-- Always render routed components -->
+    <MainLayout>
+      <MyTitle class="mytitle" /> <!-- Title component -->
+      <MyHeader class="myheader" /> <!-- Header component -->
+      <router-view class="view" /> <!-- Render routed components -->
+    </MainLayout>
   </div>
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { useAuthStore } from './stores/authStore'; // Import the auth store
 import MyTitle from './components/MyTitle.vue';
 import MyHeader from './components/MyHeader.vue';
+import MainLayout from './components/MainLayout.vue';
 
 export default {
   name: 'App',
   components: {
     MyTitle,
     MyHeader,
+    MainLayout
   },
   setup() {
-    const isAuthenticated = ref(Boolean(localStorage.getItem('token'))); // Initialize based on token
+    const authStore = useAuthStore(); // Use the global store
 
-    // Function to handle authentication state
+    // Handle authentication state updates (function not used in this example)
     const handleAuth = (status) => {
-      isAuthenticated.value = status;
-      if (!status) {
-        localStorage.removeItem('token'); // Remove the token upon sign out
-      }
+      authStore.setAuthStatus(status); // Update the global store
     };
 
-    // Watch for changes in isAuthenticated
-    watch(isAuthenticated, (newStatus) => {
-      console.log('Authentication status changed:', newStatus);
-    });
-    watch(
-      () => localStorage.getItem('token'),
-      (newToken) => {
-        isAuthenticated.value = Boolean(newToken);
-      }
-    );
     return {
-      isAuthenticated,
       handleAuth,
     };
   },
 };
 </script>
-
-
 
 <style>
 #app {
@@ -55,12 +43,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 30px;
 }
-.mytitle{
-  margin-bottom: 10px;
-}
-.myheader{
 
+.mytitle {
+  margin-bottom: 0px;
+}
+
+/* .myHeader{
+  margin-bottom: 10px;
+} */
+.view {
+  margin-top: 0px;
 }
 </style>

@@ -1,25 +1,22 @@
 <template>
-  <div :class="layoutContainer">
+  <div class="layoutContainer">
     <slot></slot> <!-- This will render the children passed to the layout -->
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'MainLayout',
-  setup() {
-    return {
-      layoutContainer: 'layoutContainer' // Ensure this is a string that matches your CSS class
-    };
-  },
 });
 </script>
 
 <style scoped>
 .layoutContainer {
-  gap: 20px; /* Adjust gap value as needed */
-  padding: 20px; /* Optional padding for the entire layout */
+  display: flex; /* Add display style if needed */
+  flex-direction: column; /* Adjust layout direction as needed */
+  gap: 10px; /* Adjust gap value as needed */
+  padding: 10px; /* Optional padding for the entire layout */
 }
 </style>

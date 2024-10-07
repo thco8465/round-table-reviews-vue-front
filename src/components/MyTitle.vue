@@ -8,13 +8,14 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
+import { useAuthStore } from '@/stores/authStore'; // Correct import for named export
 
 // Function to fetch user data
 const fetchUserData = async () => {
   try {
     const token = localStorage.getItem('token');
-    if (!token) throw new Error("No token found");
+    if (!token) throw new Error('No token found');
 
     const response = await fetch(`${process.env.VUE_APP_API_URL}/api/user/me`, {
       headers: {
@@ -37,19 +38,10 @@ const fetchUserData = async () => {
 
 export default defineComponent({
   name: 'MyTitle',
-  props: {
-    text: {
-      type: String,
-      default: `Round Table Reviews`,
-    },
-    isAuthenticated: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  setup(props) {
+  setup() {
     const username = ref(null); // Initialize as null
-    const titleText = ref(props.text); // Reference the prop text
+    const titleText = ref('Round Table Reviews'); // Default title text
+    const authStore = useAuthStore(); // Use the global store
 
     const loadUserData = async () => {
       const userData = await fetchUserData();
@@ -60,10 +52,10 @@ export default defineComponent({
       }
     };
 
-    // Watch for authentication changes to fetch user data
-    watch(() => props.isAuthenticated, (newValue) => {
-      if (newValue) {
-        loadUserData(); // Fetch user data on authentication
+    // Watch for changes in global authentication state
+    watchEffect(() => {
+      if (authStore.isAuthenticated) {
+        loadUserData(); // Fetch user data when authenticated
       } else {
         username.value = null; // Reset if not authenticated
       }
@@ -71,11 +63,12 @@ export default defineComponent({
 
     return {
       username,
-      titleText
+      titleText,
     };
   },
 });
 </script>
+
   <style scoped>
 .container {
   background-color: #6F4F28; /* Semi-transparent background */
