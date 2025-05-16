@@ -1,30 +1,36 @@
 <template>
   <div class="container">
-    <div class="searchBox">
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Search for game and select"
-        class="input"
-      />
+    <div class="search-box">
+      <input type="text" v-model="searchQuery" placeholder="Search for a game" class="input" />
       <button @click="handleSearch" class="button">Search</button>
     </div>
 
-    <p v-if="error" class="errorClass">{{ error }}</p>
+    <p v-if="error" class="error">{{ error }}</p>
+    <p v-else-if="gameData && !gameData.length" class="no-results">
+      No matching games found.
+    </p>
 
-    <div v-if="gameData" class="gameInfo">
-      <h2>{{ gameData.title }}</h2>
-      <img :src="gameData.cover" :alt="gameData.title" class="coverImage" />
-      <button @click="handleGameSelect" class="selectButton">Select Game</button>
+    <div v-if="gameData.length" class="results-grid">
+      <div v-for="game in gameData" :key="game.id" class="game-card">
+        <img :src="game.cover" :alt="game.title" class="cover-image" />
+        <h3 class="game-title">{{ game.title }}</h3>
+        <button @click="handleGameSelect(game)" class="select-button">Review Game</button>
+      </div>
     </div>
   </div>
 </template>
 
+
 <script>
 import { ref } from 'vue';
+// import { Carousel, Slide } from 'vue3-carousel'
+// import 'vue3-carousel/dist/carousel.css'
 
 export default {
   name: 'SearchBar',
+  components: {
+ 
+  },
   props: {
     onGameSelect: {
       type: Function,
@@ -33,7 +39,7 @@ export default {
   },
   setup(props) {
     const searchQuery = ref('');
-    const gameData = ref(null);
+    const gameData = ref([]);
     const error = ref('');
 
     const handleSearch = async () => {
@@ -52,17 +58,18 @@ export default {
         }
 
         const data = await response.json();
+        console.log('data returned from twitch api: ', data)
         gameData.value = data;
         error.value = '';
       } catch (err) {
         error.value = err.message || 'Unknown error';
-        gameData.value = null;
+        gameData.value = [];
       }
     };
 
-    const handleGameSelect = () => {
-      if (gameData.value) {
-        props.onGameSelect(gameData.value);
+    const handleGameSelect = (game) => {
+      if (game) {
+        props.onGameSelect(game);
       }
     };
 
@@ -78,7 +85,7 @@ export default {
       button: 'button',
       errorClass: 'error',
       gameInfo: 'gameInfo',
-      coverImage: 'coverImage',
+      cover: 'cover',
       selectButton: 'selectButton',
     };
   },
@@ -88,60 +95,118 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap');
 
-body {
-  font-family: 'Cinzel', serif;
-}
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    background-size: cover;
-    background-color: #f4e3c1; /* Parchment-like background */
-    border: 5px solid #B08D57;
+  max-width: 1200px; /* put this back to limit width */
+  width: 100%;       /* full width up to max-width */
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f4e3c1;
+  border: 5px solid #B08D57;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  font-family: 'Cinzel', serif;
+  /* Remove text-align center here to avoid messing with grid */
+  text-align: left;
 }
 
+.search-box {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  text-align: center; /* keep search box centered */
+}
+
+
 .input {
-    width: 90%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #B08D57;
+  border-radius: 6px;
+  max-width: 400px;
 }
 
 .button {
-    width: 100%;
-    padding: 10px;
-    background-color: #B08D57;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-
+  padding: 12px 24px;
+  background-color: #B08D57;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
 }
 
 .button:hover {
-    background-color: #DAA520;
+  background-color: #DAA520;
 }
 
-.results {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates a grid with 3 columns */
-    gap: 20px; /* Adds space between the grid items */
-    padding: 20px;
-}
-.noResults {
-    text-align: center;
-    color: #999;
-    margin-top: 20px;
-    font-size: 16px;
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
 }
 
+.game-card {
+  background-color: #fff8e7;
+  border: 2px solid #B08D57;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+  /* Make cards full width of grid cell */
+  width: 100%;
+  max-width: 180px; /* optional max width for better scaling */
+  margin: 0 auto; /* center cards */
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+}
+
+.cover-image {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.game-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.select-button {
+  padding: 8px 16px;
+  background-color: #B08D57;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.select-button:hover {
+  background-color: #DAA520;
+}
+
+.error {
+  color: darkred;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.no-results {
+  margin-top: 20px;
+  font-style: italic;
+  color: #777;
+}
 </style>

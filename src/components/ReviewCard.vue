@@ -26,9 +26,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const imageUrl = computed(() =>
-      props.review.cover.replace('{width}', '100').replace('{height}', '150')
-    );
+    console.log(props.review)
+    // const imageUrl = computed(() =>
+    //   props.review.cover?.replace('{width}', '100').replace('{height}', '150')
+    // );
+    const imageUrl = computed(() => props.review.cover)
 
     const formattedDate = computed(() => {
       return new Date(props.review.date).toLocaleDateString();
@@ -46,7 +48,7 @@ export default defineComponent({
 .reviewCard {
   background-color: #f4e3c1; /* Parchment-like background color */
   border-radius: 12px; /* Slightly more rounded corners */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow for added depth */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deeper shadow for added depth */
   padding: 20px;
   margin-bottom: 20px;
   transition: transform 0.3s ease-in-out; /* Smoother scaling effect */
@@ -62,11 +64,13 @@ export default defineComponent({
   display: flex;
   justify-content: center; /* Center content horizontally */
   width: 100%; /* Full width to contain image */
+  height: 150px;
 }
 
 .reviewCard__cover img {
+  border-radius: 5px;
   max-width: 100%; /* Ensure the image scales properly */
-  height: auto; /* Maintain aspect ratio */
+  height: 100%; /* Maintain aspect ratio */
 }
 
 .reviewCardContent {

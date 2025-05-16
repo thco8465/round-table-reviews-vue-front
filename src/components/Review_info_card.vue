@@ -28,12 +28,19 @@ export default defineComponent({
     const route = useRoute();
 
     // Use computed to define imageUrl based on reviewInfo
-    const imageUrl = computed(() => {
+    // const imageUrl = computed(() => {
+    //   if (reviewInfo.value) {
+    //     return reviewInfo.value[9]?.replace('{width}', '100').replace('{height}', '150');
+    //   }
+    //   return ''; // Return an empty string while loading
+    // });
+      const imageUrl = computed(() => {
       if (reviewInfo.value) {
-        return reviewInfo.value[9].replace('{width}', '100').replace('{height}', '150');
+        return reviewInfo.value[9];
       }
       return ''; // Return an empty string while loading
     });
+
 
     const fetchReviewInfo = async () => {
       const reviewId = route.params.review_id; // Get the review ID from the route

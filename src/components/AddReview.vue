@@ -85,6 +85,7 @@ export default {
     const formData = ref({
       gameId: props.selectedGame?.gameId || '',
       game_name: props.selectedGame?.title || '',
+      cover: props.selectedGame?.cover || '',
       review: '',
       timeSpent: '',
       rating: 1,
@@ -94,6 +95,7 @@ export default {
     const handleGameSelect = (selectedGame) => {
       console.log('Selected game info: ', selectedGame);
       formData.value.gameId = selectedGame.gameId; // Update with selected game ID
+      formData.value.cover = selectedGame.cover;
       formData.value.game_name = selectedGame.title; // Update with selected game title
     };
 
@@ -145,6 +147,7 @@ export default {
     watch(() => props.selectedGame, (newVal) => {
       if (newVal) {
         formData.value.gameId = newVal.gameId;
+        formData.value.cover = newVal.cover;
         formData.value.game_name = newVal.title;
       }
     });
@@ -209,6 +212,7 @@ export default {
         formData.value = {
           gameId: null,
           game_name: '',
+          cover: '',
           review: '',
           timeSpent: '',
           rating: 1,
