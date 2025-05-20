@@ -88,5 +88,10 @@ export default {
 </script>
 
 <style scoped>
+body {
+  font-family: 'Cinzel', serif;
+  /* Example of a medieval-inspired font */
+}
+
 /* Add any additional styles here if needed */
 </style>

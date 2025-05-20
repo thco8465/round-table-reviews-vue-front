@@ -1,5 +1,12 @@
 <template>
   <header class="header">
+    <!-- Warning message appears when the user isn’t signed in -->
+    <div class="warning-message" v-if="showSigninWarning">
+      Please sign in or create account to access.
+    </div>
+    <div class="nav-lip">
+      <span class="drop-arrow">▼</span>
+    </div>
     <nav class="nav">
       <ul class="navList">
         <li class="navItem">
@@ -18,24 +25,65 @@
           </router-link>
         </li>
         <li class="navItem">
-          <router-link to="/AddReview">
-            <FontAwesomeIcon icon="fas fa-plus" class="faIcon" /> Add Review
-          </router-link>
+          <template v-if="authStore.isAuthenticated">
+            <router-link to="/AddReview">
+              <FontAwesomeIcon icon="fas fa-plus" class="faIcon" /> Add Review
+            </router-link>
+          </template>
+          <template v-else>
+            <a href="#" @click.prevent="notifySignIn">
+              <FontAwesomeIcon icon="fas fa-plus" class="faIcon" /> Add Review
+            </a>
+          </template>
         </li>
         <li class="navItem">
-          <router-link to="/MyProfile">
-            <FontAwesomeIcon icon="fas fa-user-circle" class="faIcon" /> Profile
-          </router-link>
+          <!-- Protected route: if user is not signed in, clicking triggers a warning -->
+          <template v-if="authStore.isAuthenticated">
+            <router-link to="/MyProfile">
+              <FontAwesomeIcon icon="fas fa-user-circle" class="faIcon" /> Profile
+            </router-link>
+          </template>
+          <template v-else>
+            <a href="#" @click.prevent="notifySignIn">
+              <FontAwesomeIcon icon="fas fa-user-circle" class="faIcon" /> Profile
+            </a>
+          </template>
+        </li>
+        <!-- <li class="navItem">
+          <template v-if="authStore.isAuthenticated">
+            <router-link to="/MyFriends">
+              <FontAwesomeIcon icon="fas fa-user-plus" class="faIcon" /> My Friends
+            </router-link>
+          </template>
+          <template v-else>
+            <a href="#" @click.prevent="notifySignIn">
+              <FontAwesomeIcon icon="fas fa-user-plus" class="faIcon" /> My Friends
+            </a>
+          </template>
+        </li> -->
+        <li class="navItem">
+          <template v-if="authStore.isAuthenticated">
+            <router-link to="/AddFriend">
+              <FontAwesomeIcon icon="fas fa-user-plus" class="faIcon" /> Add Friend
+            </router-link>
+          </template>
+          <template v-else>
+            <a href="#" @click.prevent="notifySignIn">
+              <FontAwesomeIcon icon="fas fa-user-plus" class="faIcon" /> Add Friend
+            </a>
+          </template>
         </li>
         <li class="navItem">
-          <router-link to="/AddFriend">
-            <FontAwesomeIcon icon="fas fa-user-plus" class="faIcon" /> Add Friend
-          </router-link>
-        </li>
-        <li class="navItem">
-          <router-link to="/Friendlist">
-            <FontAwesomeIcon icon="fas fa-users" class="faIcon" /> Friend List Status
-          </router-link>
+          <template v-if="authStore.isAuthenticated">
+            <router-link to="/Friendlist">
+              <FontAwesomeIcon icon="fas fa-users" class="faIcon" /> Friend List Status
+            </router-link>
+          </template>
+          <template v-else>
+            <a href="#" @click.prevent="notifySignIn">
+              <FontAwesomeIcon icon="fas fa-users" class="faIcon" /> Friend List Status
+            </a>
+          </template>
         </li>
         <!-- Sign out option if authenticated -->
         <li v-if="authStore.isAuthenticated" class="navItem signOutItem">
@@ -55,15 +103,34 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-  faHome, faGamepad, faUser, faPlus, faUserCircle, faUserPlus, faUsers, faSignOutAlt, faSignInAlt,
+  faHome,
+  faGamepad,
+  faUser,
+  faPlus,
+  faUserCircle,
+  faUserPlus,
+  faUsers,
+  faSignOutAlt,
+  faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { useAuthStore } from '../stores/authStore'; // Import authStore
+import { useAuthStore } from '../stores/authStore';
 
 // Add the icons to the library
-library.add(faHome, faGamepad, faUser, faPlus, faUserCircle, faUserPlus, faUsers, faSignOutAlt, faSignInAlt);
+library.add(
+  faHome,
+  faGamepad,
+  faUser,
+  faPlus,
+  faUserCircle,
+  faUserPlus,
+  faUsers,
+  faSignOutAlt,
+  faSignInAlt
+);
 
 export default {
   name: 'MyHeader',
@@ -71,67 +138,112 @@ export default {
     FontAwesomeIcon,
   },
   setup() {
-    const authStore = useAuthStore(); // Use the global store
-
+    const authStore = useAuthStore();
+    const showSigninWarning = ref(false);
     const handleSignOut = () => {
-      authStore.setAuthStatus(false); // Sign out and update the store
+      authStore.setAuthStatus(false);
     };
+    const notifySignIn = () => {
+      showSigninWarning.value = true;
+      setTimeout(() => {
+        showSigninWarning.value = false;
+      }, 2000);
+    }
 
     return {
       authStore,
       handleSignOut,
+      showSigninWarning,
+      notifySignIn
     };
   },
 };
 </script>
-
-
-
-
-  <style scoped>
-/* Fantasy Adventure Theme */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap');
+<style scoped>
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap");
 
 body {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
 }
-/* Main header styling */
+
+/* Fluid header container */
 .header {
-  background-size: cover;
-  background-color: #f4e3c1; /* Parchment-like background */
-  border: 5px solid #B08D57;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for a dramatic effect */
-  
-  /* Gold border resembling an ancient frame */
-  padding: 10px 20px;
-  border-radius: 12px;
-  
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f4e3c1;
+  border: 5px solid #b08d57;
+  border-top: none;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  transition: border 0.3s ease, padding 0.3s ease;
+  /* To smooth the border change */
+  overflow: hidden;
+  border-radius: 0px 0px 5px 5px;
 }
 
-/* Navigation bar */
+/* Warning message styling */
+.warning-message {
+  background-color: #ffdddd;
+  color: #a94442;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #a94442;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* The visible "lip" of the header with the down arrow */
+.nav-lip {
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f4e3c1;
+}
+
+/* Down arrow indicator, rotates on hover */
+.drop-arrow {
+  font-size: 1.5rem;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Navigation dropdown structure */
 .nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow-y: auto; /* Enables vertical scroll if needed */
+  overflow-x: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-/* List styling */
+
+/* Expand nav (and header border) when hovering over the header */
+.header:hover .nav {
+  max-height: 200px; /* Adjust based on content height */
+}
+
+/* Rotate arrow upon expansion */
+.header:hover .drop-arrow {
+  transform: rotate(180deg);
+}
+
+/* Navigation list styling: horizontal layout by default */
 .navList {
   list-style: none;
   display: flex;
   gap: 20px;
-  font-family: 'Cinzel', serif;
-  /* A medieval-style font */
+  font-family: "Cinzel", serif;
   font-size: 1.2rem;
+  justify-content: center;
+  padding: 10px;
+  margin: 0;
 }
 
-/* Navigation items */
+/* Navigation link styling */
 .navItem a {
-  color: #563A28;
+  color: #563a28;
   font-weight: bold;
-  /* Dark brown medieval tone */
   text-decoration: none;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,40 +252,45 @@ body {
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover effects */
 .navItem a:hover {
-  color: #DAA520;
-  /* Gold color on hover */
-  text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+  color: #daa520;
+  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
   transform: scale(1.1);
 }
 
-/* Fantasy Icons (add small decorative icons before each link) */
-.navItem a::before {
-  /*content: url('/path-to-fantasy-icon.png');*/
-  /* Replace with your icons */
-  display: inline-block;
-  margin-right: 8px;
-  width: 20px;
-  height: 20px;
-}
-
-/* Sign-out item specific styling */
+/* Sign-out specific styling */
 .signOutItem a {
-  color: #9B111E;
-  /* Dark red for sign out */
+  color: #9b111e;
 }
 
 .signOutItem a:hover {
-  color: #FF6347;
-  /* Lighter red on hover */
+  color: #ff6347;
 }
 
-/* Responsive behavior */
+/* Responsive adjustments using media queries */
 @media (max-width: 768px) {
+  /* Make header less padded and reduce border thickness */
+  .header {
+    padding: 10px;
+    border-width: 3px;
+  }
+  /* Stack navigation items vertically */
   .navList {
     flex-direction: column;
     gap: 10px;
   }
-}  </style>
-  
+  /* Adjust link padding and font size for smaller screens */
+  .navItem a {
+    padding: 8px;
+    font-size: 1rem;
+  }
+  /* Scale down the arrow size */
+  .drop-arrow {
+    font-size: 1.2rem;
+  }
+  /* Optionally, increase nav container height if needed */
+  .header:hover .nav {
+    max-height: 300px;
+  }
+}
+</style>

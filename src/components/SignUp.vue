@@ -116,7 +116,7 @@
   border-radius: 12px; /* Rounded corners */
   padding: 20px;
   margin: 20px auto;
-  font-family: 'Garamond', serif; /* Medieval-style font */
+  font-family: 'Cinzel', serif; /* Example of a medieval-inspired font */
   color: #3b2a1a; /* Dark text color for contrast */
   align-items: center;
   justify-content: center;

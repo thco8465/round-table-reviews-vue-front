@@ -8,60 +8,53 @@
         <form @submit.prevent="handleSubmit" class="reviewForm">
           <div class="formGroup">
             <label for="review">Your Review</label>
-            <textarea id="review" rows="4" v-model="formData.review"></textarea>
+            <textarea id="review" rows="4" v-model="formData.review" maxlength="180"></textarea>
+            <small>{{ formData.review.length }}/180 characters</small>
           </div>
-
           <div class="formGroup">
             <label for="high">High Point</label>
-            <input id="high" type="text" v-model="inDepth.high" />
+            <input id="high" type="text" v-model="inDepth.high" maxlength="50" />
+            <small>{{ inDepth.high.length }}/50 characters</small>
           </div>
-
           <div class="formGroup">
             <label for="low">Low Point</label>
-            <input id="low" type="text" v-model="inDepth.low" />
+            <input id="low" type="text" v-model="inDepth.low" maxlength="50" />
+            <small>{{ inDepth.low.length }}/50 characters</small>
           </div>
-
           <div class="formGroup">
             <label for="atmosphere">Atmosphere (1-10)</label>
             <input id="atmosphere" type="number" min="1" max="10" v-model.number="inDepth.atmosphere" />
           </div>
-
           <div class="formGroup">
             <label for="story">Story (1-10)</label>
             <input id="story" type="number" min="1" max="10" v-model.number="inDepth.story" />
           </div>
-
           <div class="formGroup">
             <label for="gameplay">Gameplay (1-10)</label>
             <input id="gameplay" type="number" min="1" max="10" v-model.number="inDepth.gameplay" />
           </div>
-
           <div class="formGroup">
             <label for="difficulty">Difficulty (1-10)</label>
             <input id="difficulty" type="number" min="1" max="10" v-model.number="inDepth.difficulty" />
           </div>
-
           <div class="formGroup">
             <label for="dev_note">Note to Developer</label>
-            <input id="dev_note" type="text" v-model="inDepth.dev_note" />
+            <input id="dev_note" type="text" v-model="inDepth.dev_note" maxlength="30" />
+            <small>{{ inDepth.dev_note.length }}/30 characters</small>
           </div>
-
           <div class="formGroup">
             <label for="rating">Overall rating (1-10)</label>
             <input id="rating" type="number" min="1" max="10" v-model.number="formData.rating" />
           </div>
-
           <div class="formGroup">
             <label for="timeSpent">Time Spent (hours)</label>
             <input id="timeSpent" type="number" min="0" step="0.1" v-model.number="formData.timeSpent" />
           </div>
-
           <div class="formGroup">
             <label for="date">Date</label>
             <input id="date" type="date" v-model="formData.date" />
           </div>
-
-          <button type="submit" class="submitButton">Submit Review</button>
+          <button type="submit" class="submit-review-btn">Submit Review</button>
         </form>
         <div v-if="loading" class="spinner">Loading...</div>
       </div>
@@ -259,6 +252,8 @@ export default {
   padding: 20px;
   margin-bottom: 20px;
   transition: transform 0.2s ease-in-out;
+  font-family: 'Cinzel', serif;
+  /* Example of a medieval-inspired font */
 }
 
 .title {
@@ -285,8 +280,27 @@ export default {
   width: 100%;
 }
 
-.submitButton {
-  align-self: center;
+.submit-review-btn {
+  padding: 8px 16px;
+  background-color: #B08D57;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-review-btn:hover {
+  background-color: #DAA520;
+}
+
+.submit-review-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-review-btn:focus {
+  outline: 2px solid rgba(16, 185, 129, 0.5);
 }
 
 .spinner {

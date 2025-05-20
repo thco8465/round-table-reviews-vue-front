@@ -1,11 +1,6 @@
 <template>
   <div class="container">
-    <input
-      type="text"
-      v-model="query"
-      placeholder="Search for a username"
-      class="input"
-    />
+    <input type="text" v-model="query" placeholder="Search for a username" class="input" />
     <button @click="searchUsers" class="button">Search</button>
     <ul class="resultsList">
       <li v-for="user in results" :key="user.id" class="user">
@@ -54,46 +49,45 @@ export default {
   },
 };
 </script>
-  <style scoped>
-  
+<style scoped>
 .container {
-    padding: 20px;
+  padding: 20px;
+  font-family: 'Cinzel', serif;
+  /* Example of a medieval-inspired font */
 }
 
 .input {
-    margin-right: 10px;
-    padding: 8px;
-    font-size: 16px;
+  margin-right: 10px;
+  padding: 8px;
+  font-size: 16px;
 }
 
 .button {
-    padding: 8px 12px;
-    font-size: 16px;
-    cursor: pointer;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .resultsList {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0 0;
 }
 
 .user {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .username {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .selectButton {
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
 }
-
-  </style>
-  
+</style>

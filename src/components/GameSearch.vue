@@ -52,14 +52,15 @@ export default defineComponent({
 </script>
   
   <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap'); */
 
-body {
+/* body {
   font-family: 'Cinzel', serif;
-}
+} */
 .container {
+    font-family: 'Cinzel', serif; /* Example of a medieval-inspired font */
     max-width: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;

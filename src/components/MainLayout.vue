@@ -14,9 +14,15 @@ export default defineComponent({
 
 <style scoped>
 .layoutContainer {
-  display: flex; /* Add display style if needed */
-  flex-direction: column; /* Adjust layout direction as needed */
-  gap: 10px; /* Adjust gap value as needed */
-  padding: 10px; /* Optional padding for the entire layout */
+  font-family: 'Cinzel', serif;
+  /* Example of a medieval-inspired font */
+  display: flex;
+  /* Add display style if needed */
+  flex-direction: column;
+  /* Adjust layout direction as needed */
+  gap: 0px;
+  /* Adjust gap value as needed */
+  padding: 0px;
+  /* Optional padding for the entire layout */
 }
 </style>

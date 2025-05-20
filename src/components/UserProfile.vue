@@ -114,12 +114,12 @@
   </script>
   <style scoped>
 .profile {
+    margin: 20px auto;
     background: #f4e3c1; /* Parchment-like background color */
     border-radius: 12px; /* Slightly more rounded corners */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
     padding: 30px;
     max-width: 700px;
-    margin: auto;
     text-align: center;
     font-family: 'Cinzel', serif; /* Medieval-inspired font */
     color: #4a3c2e; /* Dark brown text color */

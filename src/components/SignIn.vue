@@ -73,7 +73,7 @@ export default defineComponent({
   /* Rounded corners */
   padding: 20px;
   margin: 20px auto;
-  font-family: 'Garamond', serif;
+  font-family: 'Cinzel', serif; /* Example of a medieval-inspired font */
   /* Medieval-style font */
   color: #3b2a1a;
   /* Dark text color for contrast */

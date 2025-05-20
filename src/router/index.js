@@ -10,6 +10,7 @@ import GameSearch from '../components/GameSearch.vue';
 import UserSearch from '../components/UserSearch.vue';
 import Review_info_card from '../components/Review_info_card.vue';
 import UserProfile from '../components/UserProfile.vue';
+import CommentsView from '../components/CommentsView.vue'; 
 
 const routes = [
   {
@@ -39,7 +40,7 @@ const routes = [
     path: '/Home',
     name: 'Home',
     component: MyHome,
-    meta: { requiresAuth: true }, // Protect this route
+    meta: { requiresAuth: false }, // Protect this route
   },
   {
     path: '/MyProfile',
@@ -52,19 +53,19 @@ const routes = [
     name: 'Review_info_card',
     component: Review_info_card,
     props: true,
-    meta: { requiresAuth: true }, // Protect this route
+    meta: { requiresAuth: false }, // Protect this route
   },
   {
     path: '/GameSearch',
     name: 'GameSearch',
     component: GameSearch,
-    meta: { requiresAuth: true }, // Protect this route
+    meta: { requiresAuth: false }, // Protect this route
   },
   {
     path: '/UserSearch',
     name: 'UserSearch',
     component: UserSearch,
-    meta: { requiresAuth: true }, // Protect this route
+    meta: { requiresAuth: false }, // Protect this route
   },
   {
     path: '/SignUp',
@@ -77,10 +78,16 @@ const routes = [
     component: UserProfile,
     meta: { requiresAuth: true }, // Protect this route
   },
+   {
+    path: '/review/:reviewId/comments',
+    name: 'ReviewComments',
+    component: CommentsView,
+    props: true, // Pass the reviewId param as a prop to CommentsView
+  },
   // Redirect all unmatched routes to SignIn
   {
     path: '/',
-    redirect: '/SignIn',
+    redirect: '/Home',
   },
 ];
 

@@ -7,17 +7,10 @@
     <div class="friendSection">
       <h2 class="subheader">Friends</h2>
       <ul class="friendList">
-        <li
-          v-for="friend in acceptedFriends"
-          :key="friend.friend_id"
-          class="friendItem"
-        >
+        <li v-for="friend in acceptedFriends" :key="friend.friend_id" class="friendItem">
           <span>{{ friend.friend_username }}</span>
           <div class="btnContainer">
-            <router-link
-              :to="`/userProfile/${friend.friend_id}`"
-              class="btnProfile"
-            >
+            <router-link :to="`/userProfile/${friend.friend_id}`" class="btnProfile">
               Profile
             </router-link>
             <button class="Unfriend" @click="handleUnfriend(friend.friend_id)">
@@ -31,11 +24,7 @@
     <div class="friendSection">
       <h2 class="subheader">Pending Requests</h2>
       <ul class="friendList">
-        <li
-          v-for="friend in sentRequests"
-          :key="friend.friend_id"
-          class="friendItem"
-        >
+        <li v-for="friend in sentRequests" :key="friend.friend_id" class="friendItem">
           <span>{{ friend.friend_username }}</span>
           <span class="status">{{ friend.status }}</span>
         </li>
@@ -45,24 +34,14 @@
     <div class="friendSection">
       <h2 class="subheader">Received Requests</h2>
       <ul class="friendList">
-        <li
-          v-for="friend in receivedRequests"
-          :key="friend.friend_id"
-          class="friendItem"
-        >
+        <li v-for="friend in receivedRequests" :key="friend.friend_id" class="friendItem">
           <span>{{ friend.friend_username }}</span>
           <span class="status">{{ friend.status }}</span>
           <div v-if="friend.status === 'pending'" class="actions">
-            <button
-              class="acceptBtn"
-              @click="handleAcceptRequest(friend.friend_id)"
-            >
+            <button class="acceptBtn" @click="handleAcceptRequest(friend.friend_id)">
               Accept
             </button>
-            <button
-              class="declineBtn"
-              @click="handleDeclineRequest(friend.friend_id)"
-            >
+            <button class="declineBtn" @click="handleDeclineRequest(friend.friend_id)">
               Decline
             </button>
           </div>
@@ -290,152 +269,197 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 /* friendList.module.css */
 
 .container {
-    background: #f5f3e8; /* Light parchment or old paper color */
-    border: 2px solid #4a3c2b; /* Dark brown border */
-    border-radius: 12px; /* Rounded corners */
-    padding: 20px;
-    max-width: 800px;
-    margin: 20px auto;
-    font-family: 'Garamond', serif; /* Medieval-style font */
-    color: #3b2a1a; /* Dark text color for contrast */
-  }
-  
-  .header {
-    color: #3b2a1a; /* Dark brown for the header */
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #4a3c2b; /* Border under the title */
-    padding-bottom: 10px;
-  }
-  
-  .loading {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #6a4b29; /* Darker brown for loading text */
-  }
-  
-  .error {
-    color: #d9534f; /* Red for error messages */
-    font-size: 1rem;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .friendSection {
-    margin: 40px;
-  }
-  
-  .subheader {
-    color: #3b2a1a; /* Dark brown for section headers */
-    font-size: 2rem;
-    border-bottom: 1px solid #4a3c2b; /* Border under the subheader */
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .friendList {
-    list-style-type: none;
-    margin: 20px;
-  }
-  
-  .friendItem {
-    background: #e1d7c6; /* Light background for friend items */
-    border: 1px solid #4a3c2b; /* Dark brown border */
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between; /* Align content to edges */
-    align-items: center;
-    font-size: 1rem;
-  }
-  .friend-username {
-  font-size: 1.2em; /* Increase font size for the username */
-  font-weight: bold; /* Make it bold for emphasis */
+  background: #f5f3e8;
+  /* Light parchment or old paper color */
+  border: 2px solid #4a3c2b;
+  /* Dark brown border */
+  border-radius: 12px;
+  /* Rounded corners */
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  font-family: 'Garamond', serif;
+  /* Medieval-style font */
+  color: #3b2a1a;
+  font-family: 'Cinzel', serif;
+  /* Example of a medieval-inspired font */
+  /* Dark text color for contrast */
+}
+
+.header {
+  color: #3b2a1a;
+  /* Dark brown for the header */
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #4a3c2b;
+  /* Border under the title */
+  padding-bottom: 10px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6a4b29;
+  /* Darker brown for loading text */
+}
+
+.error {
+  color: #d9534f;
+  /* Red for error messages */
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.friendSection {
+  margin: 40px;
+}
+
+.subheader {
+  color: #3b2a1a;
+  /* Dark brown for section headers */
+  font-size: 2rem;
+  border-bottom: 1px solid #4a3c2b;
+  /* Border under the subheader */
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.friendList {
+  list-style-type: none;
+  margin: 20px;
+}
+
+.friendItem span {
+  margin-right: 15px;
+}
+
+.friendItem {
+  background: #e1d7c6;
+  /* Light background for friend items */
+  border: 1px solid #4a3c2b;
+  /* Dark brown border */
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  /* Align content to edges */
+  align-items: center;
+  font-size: 1rem;
+}
+
+.friend-username {
+  font-size: 1.2em;
+  /* Increase font size for the username */
+  font-weight: bold;
+  /* Make it bold for emphasis */
 }
 
 .status {
-  font-size: 1.1em; /* Slightly larger than default */
+  font-size: 1.1em;
+  /* Slightly larger than default */
   font-weight: bold;
-  margin-left: 20px; /* Add some spacing between the username and status */
+  margin-left: 20px;
+  /* Add some spacing between the username and status */
 }
-  .pending {
-    background: #f7d8b3; /* Light orange for pending status */
-  }
-  
-  .accepted {
-    background: #d4edda; /* Light green for accepted status */
-  }
-  
-  .declined {
-    background: #f8d7da; /* Light red for declined status */
-  }
-  
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .acceptBtn,
-  .declineBtn {
-    background: #4a3c2b; /* Dark brown background */
-    color: #f5f3e8; /* Light text color */
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-family: 'Garamond', serif;
-    font-weight: bold;
-    transition: background 0.3s ease;
-  }
-  
-  .acceptBtn:hover {
-    background: #6a4b29; /* Slightly lighter brown on hover */
-  }
-  
-  .declineBtn:hover {
-    background: #6a4b29; /* Slightly lighter brown on hover */
-  }
-  
-  .acceptBtn:focus,
-  .declineBtn:focus {
-    outline: 2px solid #3b2a1a; /* Darker border on focus */
-  }
-  .btnContainer {
-    display: flex;
-    gap: 10px; /* Space between buttons */
-  }
-  .btnProfile {
-    background-color: forestgreen;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
-  }
-  
-  .Unfriend {
-    background-color: #800020;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
-  }
-  .btnProfile:hover {
-    transform: scale(1.1); /* Increase size on hover */
-    background-color: #228b22; /* Darker green on hover */
-  }
-  .Unfriend:hover {
-    transform: scale(1.1); /* Increase size on hover */
-    background-color: #a60024; /* Darker burgundy on hover */
-  }  </style>
-  
+
+.pending {
+  background: #f7d8b3;
+  /* Light orange for pending status */
+}
+
+.accepted {
+  background: #d4edda;
+  /* Light green for accepted status */
+}
+
+.declined {
+  background: #f8d7da;
+  /* Light red for declined status */
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.acceptBtn,
+.declineBtn {
+  background: #4a3c2b;
+  /* Dark brown background */
+  color: #f5f3e8;
+  /* Light text color */
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: 'Garamond', serif;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.acceptBtn:hover {
+  background: #6a4b29;
+  /* Slightly lighter brown on hover */
+}
+
+.declineBtn:hover {
+  background: #6a4b29;
+  /* Slightly lighter brown on hover */
+}
+
+.acceptBtn:focus,
+.declineBtn:focus {
+  outline: 2px solid #3b2a1a;
+  /* Darker border on focus */
+}
+
+.btnContainer {
+  display: flex;
+  gap: 10px;
+  /* Space between buttons */
+}
+
+.btnProfile {
+  background-color: forestgreen;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  /* Smooth transition */
+}
+
+.Unfriend {
+  background-color: #800020;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  /* Smooth transition */
+}
+
+.btnProfile:hover {
+  transform: scale(1.1);
+  /* Increase size on hover */
+  background-color: #228b22;
+  /* Darker green on hover */
+}
+
+.Unfriend:hover {
+  transform: scale(1.1);
+  /* Increase size on hover */
+  background-color: #a60024;
+  /* Darker burgundy on hover */
+}
+</style>

@@ -37,21 +37,31 @@ export default {
 </script>
 
 <style>
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: none; /* Avoid white default background */
+  overflow-x: hidden;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Cinzel', serif; /* Example of a medieval-inspired font */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #3b2f2f;  /* dark brown text */
+
+  background: linear-gradient(135deg, #f9f3e4, #f4e3c1);
+  /* This creates a gentle transition between two warm tones */
+  color: #563a28;
 }
+
+
 
 .mytitle {
   margin-bottom: 0px;
 }
 
-/* .myHeader{
-  margin-bottom: 10px;
-} */
 .view {
   margin-top: 0px;
 }

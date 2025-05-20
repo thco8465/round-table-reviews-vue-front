@@ -115,16 +115,17 @@ export default {
 
 <style scoped>
 .profile {
-  background: #f4e3c1; /* Parchment-like background color */
-  border-radius: 12px; /* Slightly more rounded corners */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
-  padding: 30px;
-  max-width: 700px;
-  margin: auto;
+  margin: 20px auto;               /* 20px top/bottom and auto left/right for centering */
+  padding: 30px;                   /* Internal space to push content away from the border */
+  background: #f4e3c1;             /* Parchment-like background color */
+  border: 5px solid #b08d57;       /* Adds a solid border */
+  border-radius: 12px;             /* Rounded corners */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow for a pronounced effect */
   text-align: center;
-  font-family: 'Cinzel', serif; /* Medieval-inspired font */
-  color: #4a3c2e; /* Dark brown text color */
+  font-family: 'Cinzel', serif;    /* Medieval-inspired font */
+  color: #4a3c2e;                  /* Dark brown text color */
 }
+
 
 .profile h1 {
   color: #3e2a1e; /* Dark brown color for the title */

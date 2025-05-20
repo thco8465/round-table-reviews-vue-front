@@ -72,17 +72,17 @@ export default defineComponent({
   <style scoped>
 .container {
   background-color: #6F4F28; /* Semi-transparent background */
-  border-radius: 5px;
   height: auto; /* Adjusted to fit content dynamically */
   max-height: 150px; /* Set a maximum height if needed */
-  padding: 10px; /* Add padding to ensure content is not too close to edges */
-  overflow: hidden; /* Hide overflow to keep the container tidy */
+  /* padding: 10px; Add padding to ensure content is not too close to edges */
+  overflow: hidden; 
+  /* //Hide overflow to keep the container tidy */
   background-size: cover;
   border: 5px solid #B08D57;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for a dramatic effect */  
   /* Gold border resembling an ancient frame */
-  padding: 10px 20px;
-  border-radius: 12px;
+  padding: 0px 5px;
+  /* border-radius: 12px; */
 }
 
 .title {
@@ -97,11 +97,11 @@ export default defineComponent({
 
 .user-info {
   text-align: right;
-  font-family: 'Uncial Antiqua', serif; /* Another medieval-inspired font */
+  font-family: 'Cinzel', serif; /* Example of a medieval-inspired font */
   font-size: 1.2rem; /* Adjusted size for better fit */
   color: #d4af37; /* White text for contrast */
-  margin-bottom: 10px; /* Reduced margin for a compact look */
-  padding: 5px;
+  margin-bottom: 0px; /* Reduced margin for a compact look */
+  padding: 0px;
   border-radius: 5px;
 }
 
