@@ -10,7 +10,7 @@ import GameSearch from '../components/GameSearch.vue';
 import UserSearch from '../components/UserSearch.vue';
 import Review_info_card from '../components/Review_info_card.vue';
 import UserProfile from '../components/UserProfile.vue';
-import CommentsView from '../components/CommentsView.vue'; 
+import CommentsView from '../components/CommentsView.vue';
 
 const routes = [
   {
@@ -78,11 +78,16 @@ const routes = [
     component: UserProfile,
     meta: { requiresAuth: true }, // Protect this route
   },
-   {
+  {
     path: '/review/:reviewId/comments',
-    name: 'ReviewComments',
+    name: 'review-comments',
     component: CommentsView,
-    props: true, // Pass the reviewId param as a prop to CommentsView
+    props: route => ({
+      reviewId: route.params.reviewId,
+      gameName: route.query.gameName,
+      reviewUsername: route.query.reviewUsername,
+      userId: Number(route.query.userId)
+    }),
   },
   // Redirect all unmatched routes to SignIn
   {

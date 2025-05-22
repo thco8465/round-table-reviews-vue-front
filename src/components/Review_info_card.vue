@@ -67,6 +67,7 @@ export default defineComponent({
 .container{
   display: flex;
   justify-content: center;
+  margin-top: 10px;
 }
 .reviewCard {
   background-color: #f4e3c1;

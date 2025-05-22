@@ -5,7 +5,13 @@
     </div>
 
     <h3 class="gameTitle">{{ review.game_name }}</h3>
-    <p class="rating"><strong>Rating:</strong> {{ review.rating }}/10</p>
+    <div class="rating">
+      <p><strong>Rating:</strong></p>
+      <!-- Medieval rating symbols computed property displayed on their own line -->
+      <p class="rating-symbols">{{ medievalRatingIcons }}</p>
+      <!-- Optionally display the numeric rating -->
+      <p class="numerical-rating"><small>({{ review.rating }}/10)</small></p>
+    </div>
     <p class="reviewText"><strong>Review:</strong> {{ review.review }}</p>
     <p class="timeSpent"><strong>Playtime:</strong> {{ review.time_spent }} hr</p>
     <p v-if="review.username" class="username">
@@ -26,12 +32,17 @@
     </div>
     <!-- Comments Link -->
     <div class="comments-link">
-      <router-link :to="`/review/${review.id}/comments`">
+      <router-link :to="{
+        name: 'review-comments',
+        params: { reviewId: review.id },
+        query: { gameName: review.game_name, reviewUsername: review.username, userId: currentUserId }
+      }">
         View Comments
       </router-link>
     </div>
   </div>
 </template>
+
 
 <script>
 import { defineComponent, ref, computed, onMounted } from 'vue';
@@ -62,6 +73,14 @@ export default defineComponent({
     const helpfulVotes = ref(props.review.helpful_votes || 0);
     const notHelpfulVotes = ref(props.review.not_helpful_votes || 0);
     const votingLoading = ref(false);
+
+    const medievalRatingIcons = computed(() => {
+      // Ensure the rating is an integer (round if necessary)
+      const rating = Math.round(props.review.rating);
+      // You might consider a max rating of 10, but here we just repeat the symbol.
+      return '⚔️'.repeat(rating);
+    });
+
 
     // Fetch the current likes/dislikes for this review.
     const fetchVotes = async () => {
@@ -106,6 +125,7 @@ export default defineComponent({
       notHelpfulVotes,
       votingLoading,
       vote,
+      medievalRatingIcons,
     };
   },
 });
@@ -162,16 +182,19 @@ export default defineComponent({
   font-size: 1.1rem;
   color: #4a3c2e;
 }
-.details{
+
+.details {
   margin-top: 15px;
 }
-.details a{
+
+.details a {
   text-decoration: none;
   color: #B08D57;
   font-weight: bold;
   transition: color 0.3s ease;
 }
-.details a:hover{
+
+.details a:hover {
   color: #daa520;
 }
 
